@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Flask
+instance/
+*.db
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Uploads
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+
+# Reports
+app/reports/*
+!app/reports/.gitkeep
+
+# Screenshots
+app/screenshots/*
+!app/screenshots/.gitkeep
+
+# YOLO Weights
+*.pt
+
+# Logs
+*.log
+
+# Environment
+.env
