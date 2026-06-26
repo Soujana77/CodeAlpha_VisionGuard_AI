@@ -1,0 +1,124 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================
+   VisionGuard AI Design System
+=================================== */
+
+:root {
+
+  /* Backgrounds */
+  --bg-primary: #0B1120;
+  --bg-secondary: #111827;
+  --bg-card: #1E293B;
+  --bg-sidebar: #0F172A;
+
+  /* Brand */
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
+
+  /* Status */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* Text */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+
+  /* Border */
+  --border-color: #334155;
+
+  /* Radius */
+  --radius-card: 18px;
+  --radius-button: 12px;
+
+  /* Shadow */
+  --shadow-lg: 0 10px 30px rgba(0,0,0,.25);
+
+  /* Sidebar */
+  --sidebar-width: 280px;
+
+  /* Navbar */
+  --navbar-height: 80px;
+
+}
+
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+    background:var(--bg-primary);
+    color:var(--text-primary);
+    overflow-x:hidden;
+
+}
+
+/* Links */
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* Lists */
+
+ul{
+    list-style:none;
+}
+
+/* Images */
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+/* Buttons */
+
+button{
+    cursor:pointer;
+    font-family:inherit;
+}
+
+/* Inputs */
+
+input,
+button,
+textarea,
+select{
+
+    outline:none;
+    border:none;
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--primary);
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:var(--primary-hover);
+}

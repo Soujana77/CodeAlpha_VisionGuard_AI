@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dashboard from "../pages/Dashboard";
 
 function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<h1>VisionGuard AI</h1>} />
+        <Route path="/" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
