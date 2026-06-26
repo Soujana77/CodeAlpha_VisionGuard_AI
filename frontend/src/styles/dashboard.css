@@ -1,0 +1,156 @@
+.dashboard-header{
+    margin-bottom:30px;
+}
+
+.dashboard-header h1{
+    font-size:36px;
+    font-weight:700;
+}
+
+.dashboard-header p{
+    color:#94A3B8;
+    margin-top:6px;
+}
+
+.camera-panel{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.camera-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.camera-header button{
+    background:#22C55E;
+    color:white;
+    padding:8px 18px;
+    border-radius:8px;
+}
+
+.camera-placeholder{
+    height:380px;
+    background:#1E293B;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#94A3B8;
+    font-size:24px;
+    margin-bottom:20px;
+}
+
+.camera-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.camera-buttons button{
+    padding:12px 22px;
+    border-radius:10px;
+    background:#3B82F6;
+    color:white;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.stat-icon{
+    width:60px;
+    height:60px;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    color:white;
+}
+
+.chart-card,
+.table-card,
+.alerts-card{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:25px;
+    margin-top:25px;
+}
+
+.chart-placeholder{
+    height:300px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#94A3B8;
+    background:#1E293B;
+    border-radius:14px;
+    margin-top:20px;
+}
+
+.table-card table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.table-card th,
+.table-card td{
+    padding:15px;
+    text-align:left;
+    border-bottom:1px solid #334155;
+}
+
+.alerts-card ul{
+    margin-top:20px;
+}
+
+.alerts-card li{
+    padding:15px 0;
+    border-bottom:1px solid #334155;
+}
+
+@media(max-width:1200px){
+
+.stats-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.stats-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.camera-buttons{
+
+flex-direction:column;
+
+}
+
+}
