@@ -1,9 +1,11 @@
+import MainLayout from "../components/layout/MainLayout";
+
 function Dashboard() {
   return (
-    <div>
-      <h1>VisionGuard AI</h1>
+    <MainLayout>
+      <h1>Dashboard</h1>
       <p>AI-Powered Real-Time Object Detection & Tracking Dashboard</p>
-    </div>
+    </MainLayout>
   );
 }
 
