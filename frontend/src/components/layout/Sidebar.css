@@ -1,0 +1,79 @@
+.sidebar{
+
+    width:280px;
+    height:100vh;
+
+    position:fixed;
+
+    left:0;
+    top:0;
+
+    background:#0F172A;
+
+    padding:30px 22px;
+
+    border-right:1px solid #334155;
+
+}
+
+.logo{
+
+    margin-bottom:50px;
+
+}
+
+.logo h2{
+
+    font-size:32px;
+
+}
+
+.logo p{
+
+    color:#94A3B8;
+
+    margin-top:5px;
+
+}
+
+.sidebar nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.menu-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px 18px;
+
+    border-radius:14px;
+
+    color:#CBD5E1;
+
+    transition:.25s;
+
+}
+
+.menu-item:hover{
+
+    background:#1E293B;
+
+}
+
+.menu-item.active{
+
+    background:#3B82F6;
+
+    color:white;
+
+}

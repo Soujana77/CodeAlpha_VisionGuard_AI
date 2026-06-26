@@ -9,54 +9,65 @@ import {
   FiInfo,
 } from "react-icons/fi";
 
+import "./Sidebar.css";
+
 const menuItems = [
-  { name: "Dashboard", path: "/", icon: <FiHome /> },
-  { name: "Live Detection", path: "/", icon: <FiCamera /> },
-  { name: "Detection History", path: "/history", icon: <FiClock /> },
-  { name: "Analytics", path: "/analytics", icon: <FiBarChart2 /> },
-  { name: "Reports", path: "/reports", icon: <FiFileText /> },
-  { name: "Settings", path: "/settings", icon: <FiSettings /> },
-  { name: "About", path: "/about", icon: <FiInfo /> },
+  {
+    name: "Dashboard",
+    path: "/",
+    icon: <FiHome />,
+  },
+  {
+    name: "Live Detection",
+    path: "/",
+    icon: <FiCamera />,
+  },
+  {
+    name: "Detection History",
+    path: "/history",
+    icon: <FiClock />,
+  },
+  {
+    name: "Analytics",
+    path: "/analytics",
+    icon: <FiBarChart2 />,
+  },
+  {
+    name: "Reports",
+    path: "/reports",
+    icon: <FiFileText />,
+  },
+  {
+    name: "Settings",
+    path: "/settings",
+    icon: <FiSettings />,
+  },
+  {
+    name: "About",
+    path: "/about",
+    icon: <FiInfo />,
+  },
 ];
 
 function Sidebar() {
   return (
-    <aside
-      style={{
-        width: "280px",
-        minHeight: "100vh",
-        background: "#0F172A",
-        padding: "30px 20px",
-      }}
-    >
-      <h2 style={{ marginBottom: "8px" }}>VisionGuard AI</h2>
-      <p style={{ color: "#94A3B8", marginBottom: "40px" }}>
-        AI Surveillance
-      </p>
+    <aside className="sidebar">
+      <div className="logo">
+        <h2>VisionGuard AI</h2>
+        <p>AI Surveillance Dashboard</p>
+      </div>
 
-      <nav
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
-        }}
-      >
+      <nav>
         {menuItems.map((item) => (
           <NavLink
             key={item.name}
             to={item.path}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              color: "white",
-              textDecoration: "none",
-              padding: "12px",
-              borderRadius: "10px",
-            }}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
           >
             {item.icon}
-            {item.name}
+            <span>{item.name}</span>
           </NavLink>
         ))}
       </nav>

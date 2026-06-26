@@ -122,3 +122,23 @@ select{
 ::-webkit-scrollbar-thumb:hover{
     background:var(--primary-hover);
 }
+
+.app-layout{
+
+    display:flex;
+
+}
+
+.main-section{
+
+    margin-left:280px;
+
+    width:100%;
+
+}
+
+.page-content{
+
+    padding:30px;
+
+}

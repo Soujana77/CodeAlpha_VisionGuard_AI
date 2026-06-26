@@ -1,13 +1,18 @@
 import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 
 function MainLayout({ children }) {
   return (
-    <div style={{ display: "flex" }}>
+    <div className="app-layout">
       <Sidebar />
 
-      <main style={{ flex: 1, padding: "30px" }}>
-        {children}
-      </main>
+      <div className="main-section">
+        <Navbar />
+
+        <main className="page-content">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }
