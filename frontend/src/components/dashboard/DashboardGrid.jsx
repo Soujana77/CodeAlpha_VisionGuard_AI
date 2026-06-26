@@ -2,12 +2,14 @@ import LiveCameraCard from "./LiveCameraCard";
 import StatsGrid from "./StatsGrid";
 import DetectionChart from "./DetectionChart";
 import DetectionHistory from "./DetectionHistory";
+import RecentAlerts from "./RecentAlerts";
+import QuickActions from "./QuickActions";
 
 function DashboardGrid() {
   return (
     <div className="dashboard-wrapper">
-      <div className="dashboard-grid">
 
+      <div className="dashboard-grid">
         <div className="camera-section">
           <LiveCameraCard />
         </div>
@@ -15,16 +17,28 @@ function DashboardGrid() {
         <div className="stats-section">
           <StatsGrid />
         </div>
-
       </div>
 
       <div className="dashboard-bottom">
 
-        <DetectionChart />
+        <div className="dashboard-left">
 
-        <DetectionHistory />
+          <DetectionChart />
+
+          <QuickActions />
+
+        </div>
+
+        <div className="dashboard-right">
+
+          <DetectionHistory />
+
+          <RecentAlerts />
+
+        </div>
 
       </div>
+
     </div>
   );
 }
