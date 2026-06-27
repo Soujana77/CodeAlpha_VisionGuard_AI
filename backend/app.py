@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-
+from routes.history import history_bp
 from database import db
 
 from routes.detection import detection_bp
@@ -25,6 +25,11 @@ app.register_blueprint(
 
 app.register_blueprint(
     webcam_bp,
+    url_prefix="/api"
+)
+
+app.register_blueprint(
+    history_bp,
     url_prefix="/api"
 )
 
