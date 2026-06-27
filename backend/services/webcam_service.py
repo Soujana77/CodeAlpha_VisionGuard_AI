@@ -1,12 +1,14 @@
 import cv2
 import time
 from ultralytics import YOLO
+from services.screenshot_service import save_frame
 
 model = YOLO("yolov8n.pt")
 
 camera = None
 camera_running = False
 last_fps = 0
+last_frame = None
 
 
 def start_camera():
@@ -29,8 +31,8 @@ def stop_camera():
 
     if camera is not None:
         camera.release()
+        camera = None
 
-    camera = None
     camera_running = False
 
 
@@ -43,10 +45,15 @@ def get_status():
 
 
 def generate_frames():
-
     global last_fps
+    global last_frame
+    global camera_running
+    global camera
 
     while camera_running:
+
+        if camera is None:
+            break
 
         start = time.time()
 
@@ -55,6 +62,8 @@ def generate_frames():
         if not success:
             break
 
+        last_frame = frame.copy()
+
         results = model.predict(
             frame,
             verbose=False
@@ -62,18 +71,28 @@ def generate_frames():
 
         annotated = results[0].plot()
 
-        _, buffer = cv2.imencode(
-            ".jpg",
-            annotated
-        )
+        end = time.time()
 
-        fps = 1 / (time.time() - start)
+        last_fps = 1 / (end - start) if (end - start) > 0 else 0
 
-        last_fps = fps
+        _, buffer = cv2.imencode(".jpg", annotated)
+
+        frame_bytes = buffer.tobytes()
 
         yield (
-            b"--frame\r\n"
-            b"Content-Type: image/jpeg\r\n\r\n"
-            + buffer.tobytes()
-            + b"\r\n"
+            b'--frame\r\n'
+            b'Content-Type: image/jpeg\r\n\r\n'
+            + frame_bytes +
+            b'\r\n'
         )
+
+    stop_camera()
+
+
+def capture_screenshot():
+    global last_frame
+
+    if last_frame is None:
+        return None
+
+    return save_frame(last_frame)

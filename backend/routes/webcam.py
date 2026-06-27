@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import Response
 from flask import jsonify
+from services.webcam_service import capture_screenshot
 
 from services.webcam_service import (
     start_camera,
@@ -57,3 +58,19 @@ def webcam():
         generate_frames(),
         mimetype="multipart/x-mixed-replace; boundary=frame"
     )
+
+@webcam_bp.route("/webcam/capture", methods=["POST"])
+def capture():
+
+    filename = capture_screenshot()
+
+    if filename is None:
+        return jsonify({
+            "success": False,
+            "message": "No active frame available."
+        }), 400
+
+    return jsonify({
+        "success": True,
+        "filename": filename
+    })

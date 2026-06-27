@@ -11,6 +11,7 @@ import {
   startCamera,
   stopCamera,
   getCameraStatus,
+  captureScreenshot,
 } from "../../services/webcamService";
 
 function LiveCameraCard() {
@@ -70,10 +71,19 @@ function LiveCameraCard() {
     }
   };
 
-  const handleCapture = () => {
-    toast("Screenshot feature coming next");
-  };
+  const handleCapture = async () => {
+  try {
+    const response = await captureScreenshot();
 
+    toast.success(
+      `Saved: ${response.data.filename}`
+    );
+  } catch (err) {
+    console.error(err);
+
+    toast.error("Unable to capture screenshot");
+  }
+};
   return (
     <div className="camera-card">
 
