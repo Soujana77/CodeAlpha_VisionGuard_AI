@@ -5,7 +5,10 @@ from database import db
 class Detection(db.Model):
     __tablename__ = "detections"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     timestamp = db.Column(
         db.DateTime,
@@ -17,16 +20,17 @@ class Detection(db.Model):
         nullable=False
     )
 
-    object_name = db.Column(
-        db.String(100),
-        nullable=False
-    )
-
-    confidence = db.Column(
-        db.Float,
-        nullable=False
-    )
-
     image_path = db.Column(
-        db.String(255)
+        db.String(255),
+        nullable=False
+    )
+
+    object_count = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    detections_json = db.Column(
+        db.Text,
+        nullable=False
     )

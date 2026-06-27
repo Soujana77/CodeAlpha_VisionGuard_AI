@@ -1,18 +1,20 @@
-from models.detection import Detection
+import json
+
 from database import db
+from models.detection import Detection
 
 
 def save_detection(
     source,
-    object_name,
-    confidence,
-    image_path
+    image_path,
+    detections
 ):
+
     detection = Detection(
         source=source,
-        object_name=object_name,
-        confidence=confidence,
-        image_path=image_path
+        image_path=image_path,
+        object_count=len(detections),
+        detections_json=json.dumps(detections)
     )
 
     db.session.add(detection)

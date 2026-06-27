@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import os
 import uuid
-
+from services.detection_history_service import save_detection
 model = YOLO("yolov8n.pt")
 
 
@@ -47,6 +47,12 @@ def detect_image(image_path):
             "confidence": round(confidence * 100, 2)
 
         })
+
+    save_detection(
+    "Image",
+    output_path.replace("\\", "/"),
+    detections
+)
 
     return {
 
