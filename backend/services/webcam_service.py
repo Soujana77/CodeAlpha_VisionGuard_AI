@@ -25,7 +25,6 @@ def start_camera():
     camera_running = True
     return True
 
-
 def stop_camera():
     global camera, camera_running
 
