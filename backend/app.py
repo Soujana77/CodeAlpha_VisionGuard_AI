@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 import os
-
+from routes.webcam import webcam_bp
 from routes.dashboard import dashboard_bp
 from routes.detection import detection_bp
 
@@ -23,7 +23,10 @@ def home():
         "message": "Backend Running"
     }
 
-
+app.register_blueprint(
+    webcam_bp,
+    url_prefix="/api"
+)
 @app.route("/uploads/results/<path:filename>")
 def uploaded_results(filename):
     return send_from_directory(
