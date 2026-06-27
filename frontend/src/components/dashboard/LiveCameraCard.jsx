@@ -1,29 +1,83 @@
-import { useState } from "react";
-import { FiCamera, FiPlay, FiSquare, FiCameraOff } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import {
+  FiCamera,
+  FiPlay,
+  FiSquare,
+  FiCameraOff,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
+
+import {
+  startCamera,
+  stopCamera,
+  getCameraStatus,
+} from "../../services/webcamService";
 
 function LiveCameraCard() {
   const [cameraRunning, setCameraRunning] = useState(false);
+  const [streamUrl, setStreamUrl] = useState("");
 
-  const startCamera = () => {
-    setCameraRunning(true);
-    toast.success("Camera started");
+  useEffect(() => {
+    fetchStatus();
+  }, []);
+
+  const fetchStatus = async () => {
+    try {
+      const res = await getCameraStatus();
+      setCameraRunning(res.data.running);
+
+      if (res.data.running) {
+        setStreamUrl(
+          `http://127.0.0.1:5000/api/webcam?t=${Date.now()}`
+        );
+      } else {
+        setStreamUrl("");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const stopCamera = () => {
-    setCameraRunning(false);
-    toast.success("Camera stopped");
+  const handleStart = async () => {
+    try {
+      await startCamera();
+
+      setCameraRunning(true);
+
+      setStreamUrl(
+        `http://127.0.0.1:5000/api/webcam?t=${Date.now()}`
+      );
+
+      toast.success("Camera Started");
+    } catch (err) {
+      console.error(err);
+      toast.error("Unable to start camera");
+    }
   };
 
-  const captureFrame = () => {
-    toast("Screenshot feature coming next milestone");
+  const handleStop = async () => {
+    try {
+      await stopCamera();
+
+      setCameraRunning(false);
+
+      setStreamUrl("");
+
+      toast.success("Camera Stopped");
+    } catch (err) {
+      console.error(err);
+      toast.error("Unable to stop camera");
+    }
+  };
+
+  const handleCapture = () => {
+    toast("Screenshot feature coming next");
   };
 
   return (
     <div className="camera-card">
 
       <div className="card-header">
-
         <h3>
           <FiCamera /> Live Camera Feed
         </h3>
@@ -31,53 +85,44 @@ function LiveCameraCard() {
         <span
           className="live-badge"
           style={{
-            background: cameraRunning ? "#22C55E" : "#EF4444"
+            background: cameraRunning ? "#22C55E" : "#EF4444",
           }}
         >
           {cameraRunning ? "LIVE" : "OFFLINE"}
         </span>
-
       </div>
 
       <div className="camera-screen">
 
         {cameraRunning ? (
-
           <img
-            src="http://127.0.0.1:5000/api/webcam"
+            src={streamUrl}
             alt="Live Camera"
             className="camera-stream"
           />
-
         ) : (
-
           <div className="camera-placeholder">
-
             <FiCameraOff size={60} />
-
             <h2>Camera Offline</h2>
-
             <p>Click Start Camera to begin live detection.</p>
-
           </div>
-
         )}
 
       </div>
 
       <div className="camera-actions">
 
-        <button onClick={startCamera}>
+        <button onClick={handleStart}>
           <FiPlay />
           Start
         </button>
 
-        <button onClick={stopCamera}>
+        <button onClick={handleStop}>
           <FiSquare />
           Stop
         </button>
 
-        <button onClick={captureFrame}>
+        <button onClick={handleCapture}>
           <FiCamera />
           Capture
         </button>
