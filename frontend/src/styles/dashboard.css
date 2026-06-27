@@ -465,3 +465,36 @@ grid-template-columns:1fr;
 }
 
 }
+
+.camera-stream{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:14px;
+}
+
+.camera-placeholder{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100%;
+color:#94A3B8;
+gap:15px;
+}
+
+.camera-actions button{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:8px;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+border:none;
+}
+
+.camera-actions button:hover{
+transform:translateY(-2px);
+background:#2563EB;
+}
