@@ -1,0 +1,57 @@
+.history-card{
+    background:#1E293B;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:20px;
+    border:1px solid #334155;
+}
+
+.history-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.history-badge{
+    background:#2563EB;
+    color:white;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.history-summary{
+    margin-top:20px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+}
+
+.history-btn{
+    margin-top:20px;
+    border:none;
+    background:none;
+    color:#2563EB;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.history-btn:hover{
+    color:#1D4ED8;
+}
+
+.detail-group{
+    margin-top:20px;
+}
+
+.history-object{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    border-bottom:1px solid #334155;
+}
