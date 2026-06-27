@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
+import os
 
 from routes.dashboard import dashboard_bp
 from routes.detection import detection_bp
@@ -16,7 +17,6 @@ app.register_blueprint(detection_bp, url_prefix="/api")
 
 @app.route("/")
 def home():
-
     return {
         "success": True,
         "application": "VisionGuard AI",
@@ -24,6 +24,21 @@ def home():
     }
 
 
-if __name__ == "__main__":
+@app.route("/uploads/results/<path:filename>")
+def uploaded_results(filename):
+    return send_from_directory(
+        os.path.join("uploads", "results"),
+        filename
+    )
 
+
+@app.route("/uploads/<path:filename>")
+def uploaded_original(filename):
+    return send_from_directory(
+        "uploads",
+        filename
+    )
+
+
+if __name__ == "__main__":
     app.run(debug=True)

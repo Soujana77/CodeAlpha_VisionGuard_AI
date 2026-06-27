@@ -336,3 +336,79 @@ grid-template-columns:1fr;
 }
 
 }
+
+.upload-card{
+background:#111827;
+border:1px solid #334155;
+border-radius:18px;
+padding:25px;
+margin-top:20px;
+}
+
+.upload-card h2{
+margin-bottom:10px;
+}
+
+.upload-card p{
+color:#94A3B8;
+margin-bottom:20px;
+}
+
+.upload-card input{
+width:100%;
+padding:14px;
+background:#1E293B;
+border:1px solid #334155;
+border-radius:12px;
+color:white;
+}
+
+.preview-container{
+margin-top:25px;
+}
+
+.preview-image{
+width:100%;
+border-radius:16px;
+border:1px solid #334155;
+}
+
+.detect-btn{
+margin-top:25px;
+width:100%;
+padding:14px;
+background:#3B82F6;
+color:white;
+border:none;
+border-radius:12px;
+font-size:16px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+cursor:pointer;
+}
+
+.detect-btn:hover{
+background:#2563EB;
+}
+
+.detect-btn:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
+.object-list{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.object-item{
+display:flex;
+justify-content:space-between;
+padding:12px;
+border-radius:10px;
+background:#1E293B;
+}

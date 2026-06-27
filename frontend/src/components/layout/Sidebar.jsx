@@ -1,52 +1,88 @@
 import { NavLink } from "react-router-dom";
 import {
-  FiHome,
-  FiCamera,
-  FiClock,
-  FiBarChart2,
-  FiFileText,
-  FiSettings,
-  FiInfo,
+    FiHome,
+    FiImage,
+    FiClock,
+    FiBarChart2,
+    FiFileText,
+    FiSettings,
+    FiInfo
 } from "react-icons/fi";
 
 import "./Sidebar.css";
 
 const menuItems = [
-  {
-    name: "Dashboard",
-    path: "/",
-    icon: <FiHome />,
-  },
-  {
-    name: "Live Detection",
-    path: "/",
-    icon: <FiCamera />,
-  },
-  {
-    name: "Detection History",
-    path: "/history",
-    icon: <FiClock />,
-  },
-  {
-    name: "Analytics",
-    path: "/analytics",
-    icon: <FiBarChart2 />,
-  },
-  {
-    name: "Reports",
-    path: "/reports",
-    icon: <FiFileText />,
-  },
-  {
-    name: "Settings",
-    path: "/settings",
-    icon: <FiSettings />,
-  },
-  {
-    name: "About",
-    path: "/about",
-    icon: <FiInfo />,
-  },
+
+    {
+
+        name: "Dashboard",
+
+        path: "/",
+
+        icon: <FiHome />
+
+    },
+
+    {
+
+        name: "Image Detection",
+
+        path: "/image-detection",
+
+        icon: <FiImage />
+
+    },
+
+    {
+
+        name: "Detection History",
+
+        path: "/history",
+
+        icon: <FiClock />
+
+    },
+
+    {
+
+        name: "Analytics",
+
+        path: "/analytics",
+
+        icon: <FiBarChart2 />
+
+    },
+
+    {
+
+        name: "Reports",
+
+        path: "/reports",
+
+        icon: <FiFileText />
+
+    },
+
+    {
+
+        name: "Settings",
+
+        path: "/settings",
+
+        icon: <FiSettings />
+
+    },
+
+    {
+
+        name: "About",
+
+        path: "/about",
+
+        icon: <FiInfo />
+
+    }
+
 ];
 
 function Sidebar() {
