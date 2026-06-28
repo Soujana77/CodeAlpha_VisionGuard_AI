@@ -2,13 +2,14 @@ import cv2
 import time
 from ultralytics import YOLO
 from services.screenshot_service import save_frame
-
+from services.detection_history_service import save_detection
 model = YOLO("yolov8n.pt")
 
 camera = None
 camera_running = False
 last_fps = 0
 last_frame = None
+last_results = None
 
 
 def start_camera():
@@ -68,7 +69,9 @@ def generate_frames():
             frame,
             verbose=False
         )
+        global last_results
 
+        last_results = results
         annotated = results[0].plot()
 
         end = time.time()
@@ -91,8 +94,28 @@ def generate_frames():
 
 def capture_screenshot():
     global last_frame
+    global last_results
 
-    if last_frame is None:
+    if last_frame is None or last_results is None:
         return None
 
-    return save_frame(last_frame)
+    image_path = save_frame(last_frame)
+
+    detections = []
+
+    for box in last_results[0].boxes:
+        class_id = int(box.cls[0])
+        confidence = float(box.conf[0])
+
+        detections.append({
+            "class": model.names[class_id],
+            "confidence": round(confidence * 100, 2)
+        })
+
+    save_detection(
+        "Live Webcam",
+        image_path,
+        detections
+    )
+
+    return image_path

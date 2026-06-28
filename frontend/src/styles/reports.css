@@ -109,3 +109,52 @@
   color: #6b7280;
   font-size: 16px;
 }
+
+.session-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.session-table th {
+  background: #2563eb;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+
+.session-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.session-table tr:hover {
+  background: #f8fafc;
+}
+
+.completed-badge {
+  background: #22c55e;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.chart-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+
+.chart-card h2 {
+    margin-bottom: 20px;
+}

@@ -12,4 +12,4 @@ def save_frame(frame):
 
     cv2.imwrite(path, frame)
 
-    return filename
+    return path.replace("\\", "/")
