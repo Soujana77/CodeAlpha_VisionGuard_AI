@@ -17,7 +17,8 @@ def start_camera():
     if camera_running:
         return True
 
-    camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    camera = cv2.VideoCapture(0)
+    print("Camera opened:", camera.isOpened())
 
     if not camera.isOpened():
         return False

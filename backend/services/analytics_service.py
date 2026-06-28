@@ -4,6 +4,15 @@ from collections import Counter
 from models.detection import Detection
 
 
+VEHICLE_CLASSES = {
+    "car",
+    "motorcycle",
+    "bus",
+    "truck",
+    "bicycle"
+}
+
+
 def get_analytics():
 
     detections = Detection.query.all()
@@ -13,7 +22,6 @@ def get_analytics():
     total_objects = 0
 
     object_counter = Counter()
-
     source_counter = Counter()
 
     for detection in detections:
@@ -30,17 +38,34 @@ def get_analytics():
 
     average_objects = (
         round(total_objects / total_images, 2)
-        if total_images
-        else 0
+        if total_images else 0
     )
 
     most_detected = (
         object_counter.most_common(1)[0][0]
-        if object_counter
-        else "None"
+        if object_counter else "None"
     )
 
+    people = object_counter.get("person", 0)
+
+    vehicles = sum(
+        object_counter.get(vehicle, 0)
+        for vehicle in VEHICLE_CLASSES
+    )
+
+    alerts = 0
+
+    camera_status = "Online"
+
     return {
+
+        "people": people,
+
+        "vehicles": vehicles,
+
+        "alerts": alerts,
+
+        "cameraStatus": camera_status,
 
         "totalImages": total_images,
 
