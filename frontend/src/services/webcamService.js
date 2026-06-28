@@ -17,3 +17,7 @@ export const getCameraStatus = async () => {
 export const captureScreenshot = async () => {
   return axios.post(`${API}/webcam/capture`);
 };
+
+export const getLiveStats = async () => {
+  return axios.get(`${API}/webcam/live-stats`);
+};

@@ -10,17 +10,45 @@ import toast from "react-hot-toast";
 import {
   startCamera,
   stopCamera,
-  getCameraStatus,
+ getCameraStatus,
   captureScreenshot,
+  getLiveStats,
 } from "../../services/webcamService";
 
 function LiveCameraCard() {
   const [cameraRunning, setCameraRunning] = useState(false);
   const [streamUrl, setStreamUrl] = useState("");
+  const [liveStats, setLiveStats] = useState({
+  fps: 0,
+  objects: [],
+});
 
   useEffect(() => {
     fetchStatus();
   }, []);
+useEffect(() => {
+  let interval;
+
+  if (cameraRunning) {
+    interval = setInterval(async () => {
+      try {
+        const res = await getLiveStats();
+        setLiveStats(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    }, 500);
+  } else {
+    setLiveStats({
+      fps: 0,
+      objects: [],
+    });
+  }
+
+  return () => {
+    if (interval) clearInterval(interval);
+  };
+}, [cameraRunning]);
 
   const fetchStatus = async () => {
     try {
@@ -119,7 +147,31 @@ function LiveCameraCard() {
         )}
 
       </div>
+<div className="live-detection-panel">
+  <h3>Current Detection</h3>
 
+  <div className="live-status">
+    <strong>Status:</strong>{" "}
+    {cameraRunning ? "Live" : "Stopped"}
+  </div>
+
+  <div className="live-status">
+    <strong>FPS:</strong>{" "}
+    {liveStats.fps?.toFixed(2) ?? "0.00"}
+  </div>
+
+  {liveStats.objects.length > 0 ? (
+    <ul className="live-object-list">
+      {liveStats.objects.map((obj) => (
+        <li key={obj.class}>
+          {obj.class} × {obj.count}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No objects detected</p>
+  )}
+</div>
       <div className="camera-actions">
 
         <button onClick={handleStart}>
