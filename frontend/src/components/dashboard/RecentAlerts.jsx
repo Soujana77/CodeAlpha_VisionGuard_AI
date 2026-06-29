@@ -8,8 +8,18 @@ function RecentAlerts() {
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
+
+  loadAlerts();
+
+  const interval = setInterval(() => {
+
     loadAlerts();
-  }, []);
+
+  }, 2000);
+
+  return () => clearInterval(interval);
+
+}, []);
 
   const loadAlerts = async () => {
     try {

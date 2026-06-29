@@ -32,9 +32,19 @@ function DetectionChart() {
     values: [],
   });
 
-  useEffect(() => {
+ useEffect(() => {
+
+  loadChart();
+
+  const interval = setInterval(() => {
+
     loadChart();
-  }, []);
+
+  }, 2000);
+
+  return () => clearInterval(interval);
+
+}, []);
 
   const loadChart = async () => {
     try {

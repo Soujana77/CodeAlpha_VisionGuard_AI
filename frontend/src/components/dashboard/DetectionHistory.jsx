@@ -6,9 +6,18 @@ function DetectionHistory() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    loadHistory();
-  }, []);
 
+  loadHistory();
+
+  const interval = setInterval(() => {
+
+    loadHistory();
+
+  }, 2000);
+
+  return () => clearInterval(interval);
+
+}, []);
   const loadHistory = async () => {
     try {
       const data = await getDashboard();

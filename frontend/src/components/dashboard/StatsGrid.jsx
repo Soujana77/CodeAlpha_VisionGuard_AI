@@ -23,9 +23,19 @@ function StatsGrid() {
     totalObjects: 0,
   });
 
-  useEffect(() => {
+ useEffect(() => {
+
+  loadStats();
+
+  const interval = setInterval(() => {
+
     loadStats();
-  }, []);
+
+  }, 2000);
+
+  return () => clearInterval(interval);
+
+}, []);
 
   const loadStats = async () => {
     try {
