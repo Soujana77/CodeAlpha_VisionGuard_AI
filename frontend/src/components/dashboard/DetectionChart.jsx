@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +13,8 @@ import {
 
 import { Line } from "react-chartjs-2";
 
+import { getDashboard } from "../../services/dashboardService";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -22,63 +26,143 @@ ChartJS.register(
 );
 
 function DetectionChart() {
+
+  const [chartData, setChartData] = useState({
+    labels: [],
+    values: [],
+  });
+
+  useEffect(() => {
+    loadChart();
+  }, []);
+
+  const loadChart = async () => {
+    try {
+
+      const data = await getDashboard();
+
+      setChartData(data.chart);
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+  };
+
   const data = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+
+    labels: chartData.labels,
+
     datasets: [
+
       {
-        label: "Detections",
-        data: [18, 27, 21, 39, 32, 45, 36],
+
+        label: "Detected Objects",
+
+        data: chartData.values,
+
         borderColor: "#3B82F6",
+
         backgroundColor: "rgba(59,130,246,.18)",
+
         fill: true,
+
         tension: 0.4,
+
         pointRadius: 4,
+
         pointBackgroundColor: "#3B82F6",
+
       },
+
     ],
+
   };
 
   const options = {
+
     responsive: true,
+
     maintainAspectRatio: false,
+
     plugins: {
+
       legend: {
+
         labels: {
+
           color: "#E2E8F0",
+
         },
+
       },
+
     },
+
     scales: {
+
       x: {
+
         ticks: {
+
           color: "#94A3B8",
+
         },
+
         grid: {
+
           color: "#1F2937",
+
         },
+
       },
+
       y: {
+
+        beginAtZero: true,
+
         ticks: {
+
           color: "#94A3B8",
+
         },
+
         grid: {
+
           color: "#1F2937",
+
         },
+
       },
+
     },
+
   };
 
   return (
+
     <div className="chart-card">
+
       <div className="card-header">
-        <h3>Detection Overview</h3>
+
+        <h3>Detection Activity</h3>
+
       </div>
 
       <div className="chart-container">
-        <Line data={data} options={options} />
+
+        <Line
+          data={data}
+          options={options}
+        />
+
       </div>
+
     </div>
+
   );
+
 }
 
 export default DetectionChart;

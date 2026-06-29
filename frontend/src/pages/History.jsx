@@ -27,7 +27,7 @@ function History() {
 
       <div className="dashboard-header">
 
-        <h1>Detection History</h1>
+        <h1 className="detection-page">Detection History</h1>
 
         <p>
           All detections stored in the SQLite database.
