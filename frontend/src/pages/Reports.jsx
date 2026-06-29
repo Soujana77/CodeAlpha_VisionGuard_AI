@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import MainLayout from "../components/layout/MainLayout";
 
-import { getAnalytics } from "../services/analyticsService";
+import {
+  getAnalytics,
+  exportCSV,
+  exportPDF,
+} from "../services/analyticsService";
 
 import SummaryCards from "../components/reports/SummaryCards";
 import ObjectChart from "../components/reports/ObjectChart";
@@ -33,8 +38,58 @@ function Reports() {
       setAnalytics(response.data);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to load analytics");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const downloadFile = (blob, filename) => {
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    window.URL.revokeObjectURL(url);
+  };
+
+  const handleCSV = async () => {
+    try {
+      const response = await exportCSV();
+
+      downloadFile(
+        response.data,
+        "visionguard_report.csv"
+      );
+
+      toast.success("CSV downloaded");
+    } catch (err) {
+      console.error(err);
+      toast.error("Unable to export CSV");
+    }
+  };
+
+  const handlePDF = async () => {
+    try {
+      const response = await exportPDF();
+
+      downloadFile(
+        response.data,
+        "visionguard_report.pdf"
+      );
+
+      toast.success("PDF downloaded");
+    } catch (err) {
+      console.error(err);
+      toast.error("Unable to export PDF");
     }
   };
 
@@ -58,14 +113,14 @@ function Reports() {
 
             <button
               className="pdf-btn"
-              disabled
+              onClick={handlePDF}
             >
               Export PDF
             </button>
 
             <button
               className="csv-btn"
-              disabled
+              onClick={handleCSV}
             >
               Export CSV
             </button>
@@ -79,11 +134,9 @@ function Reports() {
             <SummaryCards analytics={analytics} />
 
             <div className="charts-grid">
-
               <ObjectChart analytics={analytics} />
 
               <SourceChart analytics={analytics} />
-
             </div>
 
             <SessionTable />

@@ -5,6 +5,7 @@ from database import db
 from routes.analytics import analytics_bp
 from routes.detection import detection_bp
 from routes.webcam import webcam_bp
+from routes.report import report_bp
 
 app = Flask(__name__)
 
@@ -35,6 +36,11 @@ app.register_blueprint(
 
 app.register_blueprint(
     analytics_bp,
+    url_prefix="/api"
+)
+
+app.register_blueprint(
+    report_bp,
     url_prefix="/api"
 )
 
