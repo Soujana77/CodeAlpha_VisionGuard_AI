@@ -1,0 +1,154 @@
+.about-page {
+  padding: 30px;
+}
+
+.about-hero {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  padding: 45px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+}
+
+.about-hero h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.about-hero p {
+  font-size: 18px;
+  opacity: .95;
+  line-height: 1.7;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(340px,1fr));
+  gap: 24px;
+}
+
+.about-card {
+  background: white;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+.about-card h2 {
+  color: #2563eb;
+  margin-bottom: 20px;
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-list li{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#01050c;
+  margin-bottom:16px;
+  font-size:15px;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 12px;
+}
+
+.tech-item{
+  background:#1e293b;
+  border:1px solid rgba(255,255,255,.05);
+  color:#f8fafc;
+  padding:14px;
+  border-radius:10px;
+  text-align:center;
+  font-weight:600;
+}
+
+.developer-card {
+  margin-top: 30px;
+  background: rgb(250, 247, 247);
+  border-radius: 14px;
+  padding: 30px;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+.developer-links {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.developer-links a{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  background:#2563eb;
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:600;
+  transition:.25s;
+}
+
+.developer-links a:hover{
+  background:#1d4ed8;
+}
+
+.developer-links a:hover {
+  background: #1d4ed8;
+}
+
+.version{
+  margin-top:25px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:#010812;
+}
+
+.developer-details{
+    font-color:#01050c
+}
+
+/* Developer Section */
+
+.developer-card {
+  margin-top: 30px;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 30px;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+.developer-card h2{
+  color:#2563eb;
+}
+
+.developer-card p{
+  color:#1f2937;
+  font-size:16px;
+  margin:8px 0;
+}
+
+.developer-card strong{
+  color:#111827;
+  font-size:28px;
+  font-weight:700;
+}
+
+.developer-card svg{
+  vertical-align:middle;
+}
+
+.version p{
+  color:#374151;
+}
+
+.version strong{
+  color:#111827;
+}

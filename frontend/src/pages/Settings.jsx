@@ -5,15 +5,7 @@ import MainLayout from "../components/layout/MainLayout";
 
 import "../styles/settings.css";
 
-useEffect(() => {
-  const saved = localStorage.getItem(
-    "visionguard_settings"
-  );
 
-  if (saved) {
-    setSettings(JSON.parse(saved));
-  }
-}, []);
 
 function Settings() {
   const [settings, setSettings] = useState({
@@ -24,7 +16,15 @@ function Settings() {
     notifications: true,
     saveLocation: "screenshots/",
   });
+useEffect(() => {
+  const saved = localStorage.getItem(
+    "visionguard_settings"
+  );
 
+  if (saved) {
+    setSettings(JSON.parse(saved));
+  }
+}, []);
   const handleChange = (key, value) => {
     setSettings((prev) => ({
       ...prev,
