@@ -1,38 +1,32 @@
 import csv
 import io
 import json
+import os
 from datetime import datetime
 
+from flask import jsonify
 from flask import send_file
+
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import (
+    Paragraph,
     SimpleDocTemplate,
+    Spacer,
     Table,
     TableStyle,
-    Paragraph,
-    Spacer,
 )
 
 from models.detection import Detection
 
 
-def generate_csv():
-
-    output = io.StringIO()
-
-    writer = csv.writer(output)
-
-    writer.writerow([
-        "Timestamp",
-        "Source",
-        "Object Count",
-        "Detected Objects"
-    ])
+def get_reports():
 
     detections = Detection.query.order_by(
         Detection.timestamp.desc()
     ).all()
+
+    reports = []
 
     for detection in detections:
 
@@ -40,17 +34,84 @@ def generate_csv():
             detection.detections_json
         )
 
-        names = ", ".join(
-            obj["class"] for obj in objects
-        )
+        reports.append({
 
-        writer.writerow([
-            detection.timestamp.strftime(
+            "id": detection.id,
+
+            "source": detection.source,
+
+            "image": detection.image_path,
+
+            "detectionDate": detection.timestamp.strftime(
                 "%d-%m-%Y %H:%M"
             ),
-            detection.source,
-            detection.object_count,
-            names
+
+            "reportDate": datetime.now().strftime(
+                "%d-%m-%Y %H:%M"
+            ),
+
+            "objectCount": detection.object_count,
+
+            "objects": objects
+
+        })
+
+    return jsonify(reports)
+def generate_csv(report_id):
+
+    detection = Detection.query.get_or_404(report_id)
+
+    output = io.StringIO()
+
+    writer = csv.writer(output)
+
+    writer.writerow([
+        "VisionGuard AI Detection Report"
+    ])
+
+    writer.writerow([])
+
+    writer.writerow([
+        "Detection ID",
+        detection.id
+    ])
+
+    writer.writerow([
+        "Detection Date",
+        detection.timestamp.strftime("%d-%m-%Y %H:%M")
+    ])
+
+    writer.writerow([
+        "Report Generated",
+        datetime.now().strftime("%d-%m-%Y %H:%M")
+    ])
+
+    writer.writerow([
+        "Source",
+        detection.source
+    ])
+
+    writer.writerow([
+        "Objects Detected",
+        detection.object_count
+    ])
+
+    writer.writerow([])
+
+    writer.writerow([
+        "Object",
+        "Confidence (%)"
+    ])
+
+    objects = json.loads(
+        detection.detections_json
+    )
+
+    for obj in objects:
+
+        writer.writerow([
+            obj["class"],
+            obj["confidence"]
         ])
 
     memory = io.BytesIO()
@@ -61,17 +122,15 @@ def generate_csv():
 
     memory.seek(0)
 
-    output.close()
-
     return send_file(
         memory,
         mimetype="text/csv",
         as_attachment=True,
-        download_name=f"visionguard_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        download_name=f"report_{report_id}.csv"
     )
+def generate_pdf(report_id):
 
-
-def generate_pdf():
+    detection = Detection.query.get_or_404(report_id)
 
     memory = io.BytesIO()
 
@@ -88,43 +147,59 @@ def generate_pdf():
         )
     )
 
+    elements.append(Spacer(1,15))
+
     elements.append(
         Paragraph(
-            f"Generated: {datetime.now().strftime('%d-%m-%Y %H:%M')}",
+            f"<b>Detection ID:</b> {detection.id}",
             styles["Normal"]
         )
     )
 
-    elements.append(Spacer(1, 20))
+    elements.append(
+        Paragraph(
+            f"<b>Detection Date:</b> {detection.timestamp.strftime('%d-%m-%Y %H:%M')}",
+            styles["Normal"]
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            f"<b>Report Generated:</b> {datetime.now().strftime('%d-%m-%Y %H:%M')}",
+            styles["Normal"]
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            f"<b>Source:</b> {detection.source}",
+            styles["Normal"]
+        )
+    )
+
+    elements.append(
+        Paragraph(
+            f"<b>Total Objects:</b> {detection.object_count}",
+            styles["Normal"]
+        )
+    )
+
+    elements.append(Spacer(1,20))
 
     table_data = [[
-        "Timestamp",
-        "Source",
-        "Objects",
-        "Detected Classes"
+        "Object",
+        "Confidence (%)"
     ]]
 
-    detections = Detection.query.order_by(
-        Detection.timestamp.desc()
-    ).all()
+    objects = json.loads(
+        detection.detections_json
+    )
 
-    for detection in detections:
-
-        objects = json.loads(
-            detection.detections_json
-        )
-
-        names = ", ".join(
-            obj["class"] for obj in objects
-        )
+    for obj in objects:
 
         table_data.append([
-            detection.timestamp.strftime(
-                "%d-%m-%Y %H:%M"
-            ),
-            detection.source,
-            str(detection.object_count),
-            names
+            obj["class"],
+            str(obj["confidence"])
         ])
 
     table = Table(table_data)
@@ -135,38 +210,31 @@ def generate_pdf():
 
             (
                 "BACKGROUND",
-                (0, 0),
-                (-1, 0),
+                (0,0),
+                (-1,0),
                 colors.HexColor("#2563eb")
             ),
 
             (
                 "TEXTCOLOR",
-                (0, 0),
-                (-1, 0),
+                (0,0),
+                (-1,0),
                 colors.white
             ),
 
             (
                 "GRID",
-                (0, 0),
-                (-1, -1),
+                (0,0),
+                (-1,-1),
                 0.5,
                 colors.grey
             ),
 
             (
                 "BACKGROUND",
-                (0, 1),
-                (-1, -1),
+                (0,1),
+                (-1,-1),
                 colors.whitesmoke
-            ),
-
-            (
-                "BOTTOMPADDING",
-                (0, 0),
-                (-1, 0),
-                10
             )
 
         ])
@@ -183,5 +251,5 @@ def generate_pdf():
         memory,
         mimetype="application/pdf",
         as_attachment=True,
-        download_name=f"visionguard_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+        download_name=f"report_{report_id}.pdf"
     )

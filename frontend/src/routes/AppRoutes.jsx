@@ -8,6 +8,7 @@ import Analytics from "../pages/Analytics";
 import Reports from "../pages/Reports";
 import Settings from "../pages/Settings";
 import About from "../pages/About";
+import ReportDetails from "../pages/ReportDetails";
 
 function AppRoutes() {
   return (
@@ -44,7 +45,10 @@ function AppRoutes() {
           path="/settings"
           element={<Settings />}
         />
-
+<Route
+  path="/reports/:id"
+  element={<ReportDetails />}
+/>
         <Route
           path="/about"
           element={<About />}

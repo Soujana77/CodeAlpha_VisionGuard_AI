@@ -1,151 +1,167 @@
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import MainLayout from "../components/layout/MainLayout";
+import ReportsToolbar from "../components/reports/ReportsToolbar";
+import ReportsTable from "../components/reports/ReportsTable";
 
 import {
-  getAnalytics,
-  exportCSV,
-  exportPDF,
-} from "../services/analyticsService";
-
-import SummaryCards from "../components/reports/SummaryCards";
-import ObjectChart from "../components/reports/ObjectChart";
-import SourceChart from "../components/reports/SourceChart";
-import SessionTable from "../components/reports/SessionTable";
+  getReports,
+  downloadPDF,
+  downloadCSV,
+} from "../services/reportService";
 
 import "../styles/reports.css";
 
 function Reports() {
-  const [analytics, setAnalytics] = useState({
-    totalImages: 0,
-    totalObjects: 0,
-    averageObjects: 0,
-    mostDetectedObject: "-",
-    objectDistribution: {},
-    sourceDistribution: {},
-  });
 
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const [reports, setReports] = useState([]);
+
+  const [search, setSearch] = useState("");
+
+  const [source, setSource] = useState("");
+
+  const [date, setDate] = useState("");
 
   useEffect(() => {
-    loadAnalytics();
+
+    loadReports();
+
   }, []);
 
-  const loadAnalytics = async () => {
+  const loadReports = async () => {
+
     try {
-      const response = await getAnalytics();
-      setAnalytics(response.data);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to load analytics");
-    } finally {
-      setLoading(false);
+
+      const response = await getReports();
+
+      setReports(response.data);
+
+    } catch (err) {
+
+      console.error(err);
+
     }
+
   };
 
-  const downloadFile = (blob, filename) => {
-    const url = window.URL.createObjectURL(blob);
+  const handlePDF = async (id) => {
+
+    const response = await downloadPDF(id);
+
+    const url = window.URL.createObjectURL(
+      response.data
+    );
 
     const link = document.createElement("a");
 
     link.href = url;
-    link.download = filename;
 
-    document.body.appendChild(link);
+    link.download = `report_${id}.pdf`;
 
     link.click();
 
-    link.remove();
-
-    window.URL.revokeObjectURL(url);
   };
 
-  const handleCSV = async () => {
-    try {
-      const response = await exportCSV();
+  const handleCSV = async (id) => {
 
-      downloadFile(
-        response.data,
-        "visionguard_report.csv"
-      );
+    const response = await downloadCSV(id);
 
-      toast.success("CSV downloaded");
-    } catch (err) {
-      console.error(err);
-      toast.error("Unable to export CSV");
-    }
+    const url = window.URL.createObjectURL(
+      response.data
+    );
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    link.download = `report_${id}.csv`;
+
+    link.click();
+
   };
 
-  const handlePDF = async () => {
-    try {
-      const response = await exportPDF();
+  const filteredReports = reports.filter((report) => {
 
-      downloadFile(
-        response.data,
-        "visionguard_report.pdf"
-      );
+    const matchesSearch =
+      report.reportId
+        ?.toLowerCase()
+        .includes(search.toLowerCase());
 
-      toast.success("PDF downloaded");
-    } catch (err) {
-      console.error(err);
-      toast.error("Unable to export PDF");
-    }
-  };
+    const matchesSource =
+      source === "" ||
+      report.source === source;
+
+    const matchesDate =
+      date === "" ||
+      report.detectionDate.includes(date);
+
+    return (
+      matchesSearch &&
+      matchesSource &&
+      matchesDate
+    );
+
+  });
 
   return (
+
     <MainLayout>
+
       <div className="reports-page">
 
         <div className="reports-header">
 
-          <div>
-            <h1>Detection Reports</h1>
+          <h1>Detection Reports</h1>
 
-            <p>
-              Analyze surveillance activity and generate detection reports.
-            </p>
-          </div>
+          <p>
 
-          <div className="reports-actions">
+            Search, filter and download surveillance reports.
 
-            <input type="date" />
-
-            <button
-              className="pdf-btn"
-              onClick={handlePDF}
-            >
-              Export PDF
-            </button>
-
-            <button
-              className="csv-btn"
-              onClick={handleCSV}
-            >
-              Export CSV
-            </button>
-
-          </div>
+          </p>
 
         </div>
 
-        {!loading && (
-          <>
-            <SummaryCards analytics={analytics} />
+        <ReportsToolbar
 
-            <div className="charts-grid">
-              <ObjectChart analytics={analytics} />
+          search={search}
 
-              <SourceChart analytics={analytics} />
-            </div>
+          setSearch={setSearch}
 
-            <SessionTable />
-          </>
-        )}
+          source={source}
+
+          setSource={setSource}
+
+          date={date}
+
+          setDate={setDate}
+
+          refresh={loadReports}
+
+        />
+
+        <ReportsTable
+
+          reports={filteredReports}
+
+          onView={(report) =>
+            navigate(`/reports/${report.id}`)
+          }
+
+          onPDF={handlePDF}
+
+          onCSV={handleCSV}
+
+        />
 
       </div>
+
     </MainLayout>
+
   );
+
 }
 
 export default Reports;
