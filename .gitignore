@@ -41,3 +41,22 @@ app/screenshots/*
 
 # Environment
 .env
+
+# Database
+*.db
+*.sqlite3
+
+# Detection Images
+backend/screenshots/
+backend/uploads/
+backend/uploads/results/
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db
