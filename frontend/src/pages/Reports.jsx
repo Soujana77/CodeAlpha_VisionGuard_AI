@@ -25,27 +25,45 @@ function Reports() {
 
   const [date, setDate] = useState("");
 
-  useEffect(() => {
+ useEffect(() => {
 
-    loadReports();
+  loadReports();
 
-  }, []);
+}, [
+
+  search,
+
+  source,
+
+  date,
+
+]);
 
   const loadReports = async () => {
 
-    try {
+  try {
 
-      const response = await getReports();
+    const response = await getReports(
 
-      setReports(response.data);
+      search,
 
-    } catch (err) {
+      source,
 
-      console.error(err);
+      date
 
-    }
+    );
 
-  };
+    setReports(response.data);
+
+  }
+
+  catch (err) {
+
+    console.error(err);
+
+  }
+
+};
 
   const handlePDF = async (id) => {
 
@@ -83,28 +101,7 @@ function Reports() {
 
   };
 
-  const filteredReports = reports.filter((report) => {
-
-    const matchesSearch =
-      report.reportId
-        ?.toLowerCase()
-        .includes(search.toLowerCase());
-
-    const matchesSource =
-      source === "" ||
-      report.source === source;
-
-    const matchesDate =
-      date === "" ||
-      report.detectionDate.includes(date);
-
-    return (
-      matchesSearch &&
-      matchesSource &&
-      matchesDate
-    );
-
-  });
+  
 
   return (
 
@@ -144,7 +141,7 @@ function Reports() {
 
         <ReportsTable
 
-          reports={filteredReports}
+         reports={reports}
 
           onView={(report) =>
             navigate(`/reports/${report.id}`)
