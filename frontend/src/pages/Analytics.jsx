@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../components/layout/MainLayout";
-
+import TrendChart from "../components/analytics/TrendChart";
 import SummaryCard from "../components/analytics/SummaryCard";
 import ObjectChart from "../components/analytics/ObjectChart";
 import SourceChart from "../components/analytics/SourceChart";
@@ -77,27 +77,47 @@ function Analytics() {
 
       <div className="summary-grid">
 
-        <SummaryCard
-          title="Images"
-          value={analytics.totalImages}
-        />
+  <SummaryCard
+    title="Images Processed"
+    value={analytics.totalImages}
+  />
 
-        <SummaryCard
-          title="Objects"
-          value={analytics.totalObjects}
-        />
+  <SummaryCard
+    title="Objects Detected"
+    value={analytics.totalObjects}
+  />
 
-        <SummaryCard
-          title="Average / Image"
-          value={analytics.averageObjects}
-        />
+  <SummaryCard
+    title="People"
+    value={analytics.people}
+  />
 
-        <SummaryCard
-          title="Top Object"
-          value={analytics.mostDetectedObject}
-        />
+  <SummaryCard
+    title="Vehicles"
+    value={analytics.vehicles}
+  />
 
-      </div>
+  <SummaryCard
+    title="Average / Image"
+    value={analytics.averageObjects}
+  />
+
+  <SummaryCard
+    title="Average Confidence"
+    value={`${analytics.averageConfidence}%`}
+  />
+
+  <SummaryCard
+    title="Unique Classes"
+    value={analytics.uniqueObjects}
+  />
+
+  <SummaryCard
+    title="Top Object"
+    value={analytics.mostDetectedObject}
+  />
+
+</div>
 
       <div className="analytics-grid">
 
@@ -110,6 +130,13 @@ function Analytics() {
         />
 
       </div>
+      <div className="analytics-grid">
+
+  <TrendChart
+    data={analytics.trend}
+  />
+
+</div>
 
     </MainLayout>
 

@@ -1,14 +1,18 @@
 import json
-from collections import Counter
 
 from models.detection import Detection
 
 
 def get_dashboard_summary():
 
-    detections = Detection.query.order_by(
-        Detection.timestamp.desc()
-    ).all()
+    detections = (
+        Detection.query
+        .order_by(Detection.timestamp.desc())
+        .limit(10)
+        .all()
+    )
+
+    detections.reverse()
 
     people = 0
     vehicles = 0
@@ -29,11 +33,23 @@ def get_dashboard_summary():
         "bicycle"
     }
 
+    package_classes = {
+        "backpack",
+        "handbag",
+        "suitcase"
+    }
+
     for detection in detections:
 
-        objects = json.loads(
-            detection.detections_json
-        )
+        try:
+
+            objects = json.loads(
+                detection.detections_json
+            )
+
+        except Exception:
+
+            objects = []
 
         chart_labels.append(
             detection.timestamp.strftime("%H:%M")
@@ -45,7 +61,12 @@ def get_dashboard_summary():
 
         for obj in objects:
 
-            cls = obj["class"]
+            cls = obj.get("class", "Unknown")
+
+            confidence = obj.get(
+                "confidence",
+                0
+            )
 
             if cls == "person":
                 people += 1
@@ -56,20 +77,18 @@ def get_dashboard_summary():
             if cls == "cell phone":
                 mobile_phones += 1
 
-            if cls in {
-                "backpack",
-                "handbag",
-                "suitcase"
-            }:
+            if cls in package_classes:
                 packages += 1
 
             history.append({
 
-                "object": cls,
+                "object": cls.title(),
 
-                "confidence": obj["confidence"],
+                "confidence": confidence,
 
-                "time": detection.timestamp.strftime("%H:%M"),
+                "time": detection.timestamp.strftime(
+                    "%H:%M:%S"
+                ),
 
                 "status": "Detected"
 
@@ -83,16 +102,14 @@ def get_dashboard_summary():
 
                 "source": detection.source,
 
-                "time": detection.timestamp.strftime("%H:%M"),
+                "time": detection.timestamp.strftime(
+                    "%H:%M:%S"
+                ),
 
                 "level": (
-
                     "High"
-
                     if detection.object_count >= 6
-
                     else "Medium"
-
                 )
 
             })
@@ -115,9 +132,9 @@ def get_dashboard_summary():
 
         "status": "Online",
 
-        "history": history[:10],
+        "history": history[-10:],
 
-        "alerts": alerts[:5],
+        "alerts": alerts[-5:],
 
         "chart": {
 
