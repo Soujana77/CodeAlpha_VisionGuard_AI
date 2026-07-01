@@ -14,7 +14,10 @@ function Settings() {
     confidence: 50,
     autoScreenshot: false,
     notifications: true,
-    saveLocation: "screenshots/",
+   saveLocation: "screenshots/",
+theme: "Dark",
+refreshRate: 500,
+reportFormat: "PDF",
   });
 useEffect(() => {
   const saved = localStorage.getItem(
@@ -139,6 +142,66 @@ useEffect(() => {
               />
 
             </div>
+            <div className="settings-card">
+
+  <h2>System Preferences</h2>
+
+  <div className="setting-item">
+
+    <label>Theme</label>
+
+    <select
+      value={settings.theme}
+      onChange={(e) =>
+        handleChange("theme", e.target.value)
+      }
+    >
+      <option>Dark</option>
+      <option>Light</option>
+    </select>
+
+  </div>
+
+  <div className="setting-item">
+
+    <label>Refresh Rate</label>
+
+    <select
+      value={settings.refreshRate}
+      onChange={(e) =>
+        handleChange(
+          "refreshRate",
+          Number(e.target.value)
+        )
+      }
+    >
+      <option value={250}>250 ms</option>
+      <option value={500}>500 ms</option>
+      <option value={1000}>1000 ms</option>
+    </select>
+
+  </div>
+
+  <div className="setting-item">
+
+    <label>Default Report Format</label>
+
+    <select
+      value={settings.reportFormat}
+      onChange={(e) =>
+        handleChange(
+          "reportFormat",
+          e.target.value
+        )
+      }
+    >
+      <option>PDF</option>
+      <option>CSV</option>
+    </select>
+
+  </div>
+
+</div>
 
             <div className="setting-item">
 
@@ -181,11 +244,11 @@ useEffect(() => {
 
         <div className="save-settings">
 
-          <button onClick={saveSettings}>
-            Save Settings
-          </button>
+  <button onClick={saveSettings}>
+    Save Configuration
+  </button>
 
-        </div>
+</div>
 
       </div>
     </MainLayout>
